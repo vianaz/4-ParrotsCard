@@ -16,7 +16,7 @@ function criarCarta() {
     frontFace.classList.add('front-face', 'face');
     backFace.classList.add('back-face', 'face');
     imgFront.src = 'img/front.png';
-    imgBack.src = `img/${}`;
+    imgBack.src = `img/${imagensVerso[shuffle()]}`;
 
     // Organiza a estrutura HTML da carta e Adiciona ao HTML
     conteinerCarta.appendChild(frontFace);
@@ -26,4 +26,11 @@ function criarCarta() {
     
     gridCards.appendChild(conteinerCarta);
     document.body.appendChild(gridCards);
+}
+
+// Função que deixa aleatorio a Array
+function shuffle() {
+    let valor = Math.floor(Math.random() * 8);
+    console.log(valor);
+    return valor;
 }
