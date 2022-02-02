@@ -30,7 +30,7 @@ function criarCarta() {
 
 // Função que deixa aleatorio a Array
 function shuffle() {
-    let valor = Math.floor(Math.random() * 8);
+    let valor = Math.floor(Math.random() * 7);
     console.log(valor);
     return valor;
 }
