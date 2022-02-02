@@ -2,6 +2,17 @@ const gridCards = document.createElement('div');
 gridCards.classList.add('grid-cartas');
 const imagensVerso = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif','metalparrot.gif','revertitparrot.gif', 'tripletsparrot.gif','unicornparrot.gif'];
 
+perguntarCartas();
+// Prompt perguntando sobre o numero de cartas
+function perguntarCartas() {
+    let numeroCartas = 0;
+    while (numeroCartas < 4 || numeroCartas > 14 || numeroCartas % 2 != 0) {
+        numeroCartas = prompt('Quantas cartas você deseja?(números pares de 4 a 14)');
+        if (numeroCartas < 4 || numeroCartas > 14 || numeroCartas % 2 != 0) {
+            alert('Valor invalido!');
+        }
+    }
+}
 // Cria a carta
 function criarCarta() {
     // Declara as divs da Carta
