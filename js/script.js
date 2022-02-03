@@ -1,7 +1,4 @@
 // Variaveis globais necessárias
-
-const gridCards = document.createElement('div');
-gridCards.classList.add('grid-cartas');
 let imagensVerso = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif','metalparrot.gif','revertitparrot.gif', 'tripletsparrot.gif','unicornparrot.gif'];
 const cartasEmJogo = [];  
 let numeroCartas = 0;
@@ -44,32 +41,17 @@ function estruturarPares(valor) {
 
 // Montar a estrutura das cartas
 function montarCarta(numero) {
-    const conteinerCarta = document.createElement('div');
-    const frontFace = document.createElement('div');
-    const imgFront = document.createElement('img');
-    const backFace = document.createElement('div');
-    const imgBack = document.createElement('img');
-    
-
-    // Adiciona as Classes necessárias
-    conteinerCarta.classList.add('card');
-    frontFace.classList.add('front-face', 'face');
-    backFace.classList.add('back-face', 'face');
-    imgFront.src = 'img/front.png';
-    imgBack.src = `img/${cartasEmJogo[numero]}`;
-
-    montarHTML(conteinerCarta, frontFace, backFace, gridCards, imgFront, imgBack);
-    
-}
-// // Organiza a estrutura HTML da carta e Adiciona ao HTML
-function montarHTML(conteinerCarta, frontFace, backFace, gridCards, imgFront, imgBack) {
-    conteinerCarta.appendChild(frontFace);
-    conteinerCarta.appendChild(backFace);
-    frontFace.appendChild(imgFront);
-    backFace.appendChild(imgBack);
-
-    gridCards.appendChild(conteinerCarta);
-    document.body.appendChild(gridCards);
+    let gridCartas = document.querySelector('div');
+    let cartas = `
+    <div class="card">
+        <div class="front-face face">
+            <img src="img/front.png">
+        </div>
+        <div class="back-face face">
+            <img src="img/${cartasEmJogo[numero]}">
+        </div>
+    </div>`;
+    gridCartas.innerHTML = gridCartas.innerHTML + cartas;
 }
 
 // Vai pegar o número de cartas e colocar em jogo
@@ -89,5 +71,4 @@ function executarJogo() {
         montarCarta(i);
     }
 }
-
 executarJogo()
