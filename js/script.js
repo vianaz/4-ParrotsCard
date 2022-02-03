@@ -1,10 +1,15 @@
+// Variaveis globais necessárias
+
 const gridCards = document.createElement('div');
 gridCards.classList.add('grid-cartas');
 let imagensVerso = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif','metalparrot.gif','revertitparrot.gif', 'tripletsparrot.gif','unicornparrot.gif'];
+const cartasEmJogo = [];  
+let numeroCartas = 0;
+
 
 // Prompt perguntando sobre o numero de cartas
 function perguntarCartas() {
-    let numeroCartas = 0;
+    alert('É um jogo da memória, então tente achar as cartas certas! :)')
     while (numeroCartas < 4 || numeroCartas > 14 || numeroCartas % 2 != 0) {
         numeroCartas = prompt('Quantas cartas você deseja?(números pares de 4 a 14)');
         if (numeroCartas < 4 || numeroCartas > 14 || numeroCartas % 2 != 0) {
@@ -29,18 +34,16 @@ function shuffle(array) {
 }
 
 // Pega no numero de cartas desejado, adiciona em pares e mistura
-function estruturarPares(numero) {
-    const cartasEmJogo = [];   
-    for (let i = 0; i < numero; i++) {
+function estruturarPares(valor) {
+    for (let i = 0; i < valor; i++) {
         cartasEmJogo.push(imagensVerso[i]);
         cartasEmJogo.push(imagensVerso[i]);
     }
     shuffle(cartasEmJogo);
-    return cartasEmJogo;
-}
+} 
 
 // Montar a estrutura das cartas
-function montarCarta() {
+function montarCarta(numero) {
     const conteinerCarta = document.createElement('div');
     const frontFace = document.createElement('div');
     const imgFront = document.createElement('img');
@@ -53,11 +56,13 @@ function montarCarta() {
     frontFace.classList.add('front-face', 'face');
     backFace.classList.add('back-face', 'face');
     imgFront.src = 'img/front.png';
-    // imgBack.src = `img/${}`;
+    imgBack.src = `img/${cartasEmJogo[numero]}`;
 
+    montarHTML(conteinerCarta, frontFace, backFace, gridCards, imgFront, imgBack);
+    
 }
-// Organiza a estrutura HTML da carta e Adiciona ao HTML
-function montarHTML() {
+// // Organiza a estrutura HTML da carta e Adiciona ao HTML
+function montarHTML(conteinerCarta, frontFace, backFace, gridCards, imgFront, imgBack) {
     conteinerCarta.appendChild(frontFace);
     conteinerCarta.appendChild(backFace);
     frontFace.appendChild(imgFront);
@@ -66,7 +71,6 @@ function montarHTML() {
     gridCards.appendChild(conteinerCarta);
     document.body.appendChild(gridCards);
 }
-
 
 // Vai pegar o número de cartas e colocar em jogo
 function colocarCartasJogo() {
@@ -81,5 +85,9 @@ function executarJogo() {
     const paresCartas = perguntarCartas() / 2;
     shuffle(imagensVerso);
     estruturarPares(paresCartas);
+    for (let i = 0; i < numeroCartas; i++) {
+        montarCarta(i);
+    }
 }
-executarJogo();
+
+executarJogo()
