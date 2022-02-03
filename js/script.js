@@ -43,7 +43,7 @@ function estruturarPares(valor) {
 function montarCarta(numero) {
     let gridCartas = document.querySelector('div');
     let cartas = `
-    <div class="card">
+    <div class="card" onclick="girarCartas(this)">
         <div class="front-face face">
             <img src="img/front.png">
         </div>
@@ -54,12 +54,14 @@ function montarCarta(numero) {
     gridCartas.innerHTML = gridCartas.innerHTML + cartas;
 }
 
-// Vai pegar o número de cartas e colocar em jogo
-function colocarCartasJogo() {
-    let teste = perguntarCartas();
-    for (let i = 0; i < teste; i++) {
-        montarCarta();
-    }
+function girarCartas(carta) {
+    let frontFace = carta.children[0];
+    let backFace = carta.children[1];
+
+    frontFace.classList.toggle('front-face');
+    frontFace.classList.toggle('girar-tras');
+    backFace.classList.toggle('back-face');
+    backFace.classList.toggle('girar-frente');
 }
 
 // Função que exectura o jogo

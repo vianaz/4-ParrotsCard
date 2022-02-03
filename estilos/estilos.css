@@ -55,10 +55,10 @@ body {
     transform: rotateY(180deg);
 }
 
-.back-face {
+.girar-frente {
     transform: rotateY(0deg);
 }
 
-.front-face {
+.girar-tras {
     transform: rotateY(-180deg);
 }
