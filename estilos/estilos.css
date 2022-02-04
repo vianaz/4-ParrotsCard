@@ -6,8 +6,8 @@ body {
     flex-direction: column;
     background-color: #EEF9BF;
     align-items: center;
-    height: 100vh;
     width: 100vw;
+    overflow-x: hidden;
 }
 .fonte {
     text-align: center;
@@ -61,4 +61,33 @@ body {
 
 .girar-tras {
     transform: rotateY(-180deg);
+}
+
+
+@media (max-width: 1200px) {
+    .grid-cartas {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 30px;
+    margin-top: 45px;
+    margin-bottom: 150px;
+    }
+}
+
+@media (max-width: 950px) {
+    .grid-cartas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+    margin-top: 45px;
+    margin-bottom: 150px;
+    }
+}
+@media (max-width: 768px) {
+    .grid-cartas {
+        display: grid;
+    grid-template-columns: repeat(1, 1fr);
+        margin-top: 45px;
+        margin-bottom: 150px;
+    }
 }
