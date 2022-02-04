@@ -5,7 +5,7 @@ let numeroDeCartasDesejado = 0;
 let listaDePares = [];
 let contadorDeJogads = 0;
 let contadorFinalizarJogo = 0;
-
+let jogoFinalido = false;
 
 // Prompt perguntando sobre o numero de cartas
 function perguntarCartas() {
@@ -18,6 +18,73 @@ function perguntarCartas() {
     }
     return numeroDeCartasDesejado;
 }
+
+
+
+
+
+
+
+// Montar a estrutura das cartas
+function montarCarta(numero) {
+    let gridCartas = document.querySelector('div');
+    let cartas = `
+    <div class="card" onclick="girarCartas(this)" id="${listaCartasEmJogo[numero]}">
+        <div class="front-face face">
+            <img src="img/front.png">
+            </div>
+        <div class="back-face face">
+            <img src="img/${listaCartasEmJogo[numero]}.gif">
+            </div>
+            </div>`;
+            gridCartas.innerHTML = gridCartas.innerHTML + cartas;
+}
+
+// Faz a carta girar para mostrar o verso
+function girarCartas(carta) {
+    verificarParesIguais(carta);
+    if (listaDePares.length <= 2 && jogoFinalido === false) {
+        let frontFace = carta.children[0];
+        let backFace = carta.children[1];
+    
+        frontFace.classList.remove('front-face');
+        frontFace.classList.add('girar-tras');
+        backFace.classList.remove('back-face');
+        backFace.classList.add('girar-frente');
+        contadorDeJogads ++;
+    }
+}
+
+// Faz a carta desgirar para desmotrar o verso
+function desgirarCartas() {
+    for (let i = 0; i < listaDePares.length; i++) {
+        let frontFace = listaDePares[i].children[0];
+        let backFace = listaDePares[i].children[1];
+        
+        frontFace.classList.remove('girar-tras');
+        frontFace.classList.add('front-face');
+        backFace.classList.remove('girar-frente');
+        backFace.classList.add('back-face');
+    }
+    listaDePares = []
+} 
+
+// Verificar cartas iguais
+function verificarParesIguais(escolhida) {
+    listaDePares.push(escolhida);
+    if (listaDePares.length === 2) {
+        if (listaDePares[0].id === listaDePares[1].id) {
+            contadorFinalizarJogo++;
+            listaDePares = [];
+            setTimeout(finalizarJogo, 500);
+        } else {
+            setTimeout(desgirarCartas, 1000);
+        }
+    } 
+}
+
+
+
 
 // Função que deixa misturada a Array
 function shuffle(array) {
@@ -42,74 +109,15 @@ function estruturarPares(valor) {
     shuffle(listaCartasEmJogo);
 } 
 
-// Montar a estrutura das cartas
-function montarCarta(numero) {
-    let gridCartas = document.querySelector('div');
-    let cartas = `
-    <div class="card" onclick="girarCartas(this);verificarParesIguais(this)" id="${listaCartasEmJogo[numero]}">
-        <div class="front-face face">
-            <img src="img/front.png">
-        </div>
-        <div class="back-face face">
-            <img src="img/${listaCartasEmJogo[numero]}.gif">
-        </div>
-    </div>`;
-    gridCartas.innerHTML = gridCartas.innerHTML + cartas;
-}
 
-// Faz a carta girar para mostrar o verso
-function girarCartas(carta) {
-    let frontFace = carta.children[0];
-    let backFace = carta.children[1];
 
-    frontFace.classList.remove('front-face');
-    frontFace.classList.add('girar-tras');
-    backFace.classList.remove('back-face');
-    backFace.classList.add('girar-frente');
-    contadorDeJogads ++;
 
-}
-
-// Faz a carta desgirar para desmotrar o verso
-function desgirarCartas() {
-    for (let i = 0; i < listaDePares.length; i++) {
-        let frontFace = listaDePares[i].children[0];
-        let backFace = listaDePares[i].children[1];
-        
-        frontFace.classList.remove('girar-tras');
-        frontFace.classList.add('front-face');
-        backFace.classList.remove('girar-frente');
-        backFace.classList.add('back-face');
-    }
-    listaDePares = []
-} 
-
-// Verificar cartas iguais
-function verificarParesIguais(escolhida) {
-    listaDePares.push(escolhida);
-    if (listaDePares.length === 2) {
-        if (listaDePares[0].id === listaDePares[1].id) {
-            contadorFinalizarJogo++;
-            listaDePares = [];
-            finalizarJogo();
-        } else {
-            setTimeout(desgirarCartas, 1000);
-        }
-    } 
-}
-
-// Verifica se o jogo já terminou
-function finalizarJogo() {
-    if (contadorFinalizarJogo === (numeroDeCartasDesejado / 2)) {
-        alert(`Você ganhou em ${contadorDeJogads} jogadas!`);
-    }
-}
 
 // Função que exectura o jogo
 function executarJogo() {
     // Define quantos pares irá ter
     const paresCartas = perguntarCartas() / 2;
-
+    
     // Mistura as back-faces possíveis
     shuffle(listaImagensVerso);
 
@@ -118,7 +126,17 @@ function executarJogo() {
     for (let i = 0; i < numeroDeCartasDesejado; i++) {
         montarCarta(i);
     }
-
-
 }
+
+// Verifica se o jogo já terminou
+function finalizarJogo() {
+    if (contadorFinalizarJogo === (numeroDeCartasDesejado / 2)) {
+        alert(`Você ganhou em ${contadorDeJogads} jogadas!`);
+        jogoFinalido = true;
+    }
+}
+
+
+
+
 executarJogo()
