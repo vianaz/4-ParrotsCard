@@ -1,11 +1,12 @@
 // Variaveis globais necessárias
 let listaImagensVerso = ['bobrossparrot','explodyparrot','fiestaparrot','metalparrot','revertitparrot', 'tripletsparrot','unicornparrot'];
-const listaCartasEmJogo = [];  
+let listaCartasEmJogo = [];  
 let numeroDeCartasDesejado = 0;
 let listaDePares = [];
 let contadorDeJogads = 0;
 let contadorFinalizarJogo = 0;
 let jogoFinalido = false;
+
 
 // Prompt perguntando sobre o numero de cartas
 function perguntarCartas() {
@@ -20,11 +21,6 @@ function perguntarCartas() {
 }
 
 
-
-
-
-
-
 // Montar a estrutura das cartas
 function montarCarta(numero) {
     let gridCartas = document.querySelector('div');
@@ -37,7 +33,7 @@ function montarCarta(numero) {
             <img src="img/${listaCartasEmJogo[numero]}.gif">
             </div>
             </div>`;
-            gridCartas.innerHTML = gridCartas.innerHTML + cartas;
+    gridCartas.innerHTML = gridCartas.innerHTML + cartas;
 }
 
 // Faz a carta girar para mostrar o verso
@@ -53,6 +49,7 @@ function girarCartas(carta) {
         backFace.classList.add('girar-frente');
         contadorDeJogads ++;
     }
+    listaDePares[0].attributes[1].nodeValue = "";
 }
 
 // Faz a carta desgirar para desmotrar o verso
@@ -65,17 +62,22 @@ function desgirarCartas() {
         frontFace.classList.add('front-face');
         backFace.classList.remove('girar-frente');
         backFace.classList.add('back-face');
+
     }
+    listaDePares[0].attributes[1].nodeValue = "girarCartas(this)";
+    listaDePares[1].attributes[1].nodeValue = "girarCartas(this)";
     listaDePares = []
 } 
 
 // Verificar cartas iguais
 function verificarParesIguais(escolhida) {
     listaDePares.push(escolhida);
+    
     if (listaDePares.length === 2) {
         if (listaDePares[0].id === listaDePares[1].id) {
-            contadorFinalizarJogo++;
+            listaDePares[1].attributes[1].nodeValue = "";
             listaDePares = [];
+            contadorFinalizarJogo++;
             setTimeout(finalizarJogo, 500);
         } else {
             setTimeout(desgirarCartas, 1000);
@@ -102,12 +104,16 @@ function shuffle(array) {
 
 // Pega no numero de cartas desejado, adiciona em pares e mistura
 function estruturarPares(valor) {
+    console.log();
     for (let i = 0; i < valor; i++) {
         listaCartasEmJogo.push(listaImagensVerso[i]);
         listaCartasEmJogo.push(listaImagensVerso[i]);
+        console.log(listaCartasEmJogo);
     }
+    
     shuffle(listaCartasEmJogo);
 } 
+
 
 
 
@@ -120,7 +126,6 @@ function executarJogo() {
     
     // Mistura as back-faces possíveis
     shuffle(listaImagensVerso);
-
     // Constroi os pares de carta, mistura e coloca eles em jogo
     estruturarPares(paresCartas);
     for (let i = 0; i < numeroDeCartasDesejado; i++) {
@@ -132,11 +137,28 @@ function executarJogo() {
 function finalizarJogo() {
     if (contadorFinalizarJogo === (numeroDeCartasDesejado / 2)) {
         alert(`Você ganhou em ${contadorDeJogads} jogadas!`);
-        jogoFinalido = true;
+        let jogarDeNovo = prompt('Você quer jogar de novo? S/N');
+        reniciarJogo(jogarDeNovo);
     }
 }
 
+function reniciarJogo(jogarDeNovo) {
+    if (jogarDeNovo === 'S') {
+        zerarTodasVariaveis();
+        document.querySelector('div').innerHTML = ""
+        executarJogo()
+    } else {
+        jogoFinalido = true;
+    }
+}
+executarJogo();
 
-
-
-executarJogo()
+function zerarTodasVariaveis() {
+    listaImagensVerso = ['bobrossparrot','explodyparrot','fiestaparrot','metalparrot','revertitparrot', 'tripletsparrot','unicornparrot'];
+    numeroDeCartasDesejado = 0;
+    listaCartasEmJogo = [];
+    listaDePares = [];
+    contadorDeJogads = 0;
+    contadorFinalizarJogo = 0;
+    jogoFinalido = false;
+}
