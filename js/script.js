@@ -25,11 +25,11 @@ function perguntarCartas() {
 function montarCarta(numero) {
     let gridCartas = document.querySelector('div');
     let cartas = `
-    <div class="card" onclick="girarCartas(this)" id="${listaCartasEmJogo[numero]}">
-        <div class="front-face face">
+    <div class="card" onclick="girarCartas(this)" id="${listaCartasEmJogo[numero]} data-identifier="card"">
+        <div class="front-face face" data-identifier="front-face">
             <img src="img/front.png">
             </div>
-        <div class="back-face face">
+        <div class="back-face face" data-identifier="back-face">
             <img src="img/${listaCartasEmJogo[numero]}.gif">
             </div>
             </div>`;
